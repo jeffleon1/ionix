@@ -21,6 +21,8 @@ once you no longer need the container please run the following command
 
 `make down-docker`
 
+# Documentation
+
 Once the project is up I suggest you go to the documentation built in swagger and make the request with the user
 interface.
 
