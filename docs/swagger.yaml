@@ -1,0 +1,477 @@
+basePath: /
+definitions:
+  github_com_jeffleon1_ionix_pkg_entities.Drug:
+    properties:
+      approved:
+        type: boolean
+      available_at:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      max_dose:
+        type: integer
+      min_dose:
+        type: integer
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - approved
+    - available_at
+    - name
+    type: object
+  github_com_jeffleon1_ionix_pkg_entities.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        maxLength: 20
+        minLength: 5
+        type: string
+      password:
+        maxLength: 20
+        minLength: 8
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - email
+    - name
+    - password
+    type: object
+  github_com_jeffleon1_ionix_pkg_entities.Vaccination:
+    properties:
+      createdAt:
+        type: string
+      date:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      dose:
+        type: integer
+      drug_id:
+        minimum: 0
+        type: integer
+      id:
+        type: integer
+      name:
+        maxLength: 50
+        minLength: 3
+        type: string
+      updatedAt:
+        type: string
+    required:
+    - date
+    - name
+    type: object
+  github_com_jeffleon1_ionix_pkg_models.BaseResponseModel:
+    properties:
+      data: {}
+      error: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  github_com_jeffleon1_ionix_pkg_models.LoginModel:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Ionix API
+  version: "1.0"
+paths:
+  /drugs:
+    get:
+      consumes:
+      - application/json
+      description: Get drugs
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: Get drugs
+      tags:
+      - Drugs
+    post:
+      consumes:
+      - application/json
+      description: create drug
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_entities.Drug'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: create drug
+      tags:
+      - Drugs
+    put:
+      consumes:
+      - application/json
+      description: update drug
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_entities.Drug'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: update drug
+      tags:
+      - Drugs
+  /drugs/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete drug by id
+      parameters:
+      - description: drugs ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: Delete drug by id
+      tags:
+      - Drugs
+    get:
+      consumes:
+      - application/json
+      description: Get drug by id
+      parameters:
+      - description: drug ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: Get drug by id
+      tags:
+      - Drugs
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: User Signin
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.LoginModel'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: User Signin
+      tags:
+      - User
+  /signup:
+    post:
+      consumes:
+      - application/json
+      description: User Signup
+      parameters:
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_entities.User'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: User Signup
+      tags:
+      - User
+  /vaccination:
+    get:
+      consumes:
+      - application/json
+      description: GetVaccinations
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: GetVaccinations
+      tags:
+      - Vaccination
+    post:
+      consumes:
+      - application/json
+      description: create vaccination
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_entities.Vaccination'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: create vaccination
+      tags:
+      - Vaccination
+    put:
+      consumes:
+      - application/json
+      description: update vaccination
+      parameters:
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      - description: query params
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_entities.Vaccination'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "422":
+          description: Unprocessable Entity
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: update vaccination
+      tags:
+      - Vaccination
+  /vaccination/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete vaccination by id
+      parameters:
+      - description: vaccination ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: Delete vaccination by id
+      tags:
+      - Vaccination
+    get:
+      consumes:
+      - application/json
+      description: Get vaccination by id
+      parameters:
+      - description: vaccination ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: access token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+        x-example: token
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/github_com_jeffleon1_ionix_pkg_models.BaseResponseModel'
+      summary: Get vaccination by id
+      tags:
+      - Vaccination
+swagger: "2.0"

@@ -1,0 +1,30 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:latest
+    restart: always
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=${DB_NAME}
+    healthcheck:
+      test: "exit 0"
+    ports:
+      - '5432:5432'
+
+  ionix-ms:
+    build: 
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      database:
+        condition: service_healthy
+    volumes:
+      - .:/app
+    ports:
+      - 8080:8080
